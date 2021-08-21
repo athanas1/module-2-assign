@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import Paper from '@material-ui/core/Paper';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+
+
+
 
 class Country extends Component{
     state = {
@@ -14,19 +20,23 @@ class Country extends Component{
         this.setState({goldMedalCount: this.state.goldMedalCount - 1})
         }
     }
+    
+    
     render() {
         return(
         <div>
-            <div>
+            <Paper elevation={2} className="paper" >
+            <div className = 'country'>
             {this.state.name}
             </div>
-            <div>
+            <div className = 'medals'>
              {'Gold Medals: ' + this.state.goldMedalCount} 
              {" "}  
-             <button onClick={ this.addMedal }>+</button>
+             <button onClick={ this.addMedal }><ArrowUpwardIcon /></button>
              {" "}  
-             <button onClick={this.subtractMedal} className="">-</button>
+             <button onClick={this.subtractMedal}><ArrowDownwardIcon /></button>
             </div>
+            </Paper>
         </div>);
     }
 

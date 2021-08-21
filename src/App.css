@@ -9,10 +9,15 @@
 
 .App-header {
   opacity: .8;
-  font-size: 8em;
-}
-.word {
   font-size: 4em;
+}
+.country {
+  font-size: 2em;
   opacity: .75;
   cursor: pointer;
+}
+
+
+.medals{
+font-size: 1.25em;
 }
