@@ -8,8 +8,8 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 class Country extends Component{
     state = {
-        name : 'United States',
-        goldMedalCount: 0,
+        name : this.props.name,
+        goldMedalCount: this.props.goldMedalCount,
     }
     addMedal= () => {
          this.setState({goldMedalCount: this.state.goldMedalCount + 1})
@@ -23,6 +23,7 @@ class Country extends Component{
     
     
     render() {
+        console.log(this.props);
         return(
         <div>
             <Paper elevation={2} className="paper" >

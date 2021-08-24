@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Country from './components/Country';
+import Countries from './components/Countries';
 
 class App extends Component {
   render() { 
@@ -9,7 +9,7 @@ class App extends Component {
         <header className="App-header">
           Olympics WOW VERY COOL
         </header>
-        <Country />
+        <Countries />
       </div>
      );
   }
