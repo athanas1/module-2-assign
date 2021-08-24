@@ -23,7 +23,7 @@ class Country extends Component{
     
     
     render() {
-        console.log(this.props);
+        
         return(
         <div>
             <Paper elevation={2} className="paper" >
