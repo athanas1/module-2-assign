@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
-import Countries from './components/Countries';
-import Counter from './components/Counter';
+//import Countries from './components/Countries';
+import Country from './components/Country';
+import Medal from './components/Medal';
+import { getCountries } from './services/countryService';
 
 class App extends Component {
   state = { 
-    countries: [
-        { id: 1, name: 'United States', goldMedalCount: 2 , silverMedalCount: 3, bronzeMedalCount: 5},
-        { id: 2, name: 'China', goldMedalCount: 3, silverMedalCount: 1, bronzeMedalCount: 4 },
-        { id: 3, name: 'Germany', goldMedalCount: 0 , silverMedalCount: 6, bronzeMedalCount: 2},
-      ]
+    countries: getCountries(), 
 }
 
 addGoldMedal = (id) => {
@@ -68,22 +66,37 @@ subtractBronzeMedal = (id) =>{
   }
 }
  
+componentDidMount() {
+  console.log("App mounted");
+}
   render() { 
+    const {countries} = this.state;
     return ( 
       <div className="App">
         <header className="App-header">
           Olympics WOW VERY COOL
         </header>
-        <Countries countries={ this.state.countries} onGoldIncrement ={this.addGoldMedal} onGoldDecrement= {this.subtractGoldMedal}
+        {/* <Countries countries={ this.state.countries} onGoldIncrement ={this.addGoldMedal} onGoldDecrement= {this.subtractGoldMedal}
         onSilverIncrement= {this.addSilverMedal} onSilverDecrement= {this.subtractSilverMedal} onBronzeIncrement = {this.addBronzeMedal} onBronzeDecrement = {this.subtractBronzeMedal}
-        />
-        <Counter totalMedals={this.state.countries.reduce((a, b) => a + b.goldMedalCount, 0) 
-          + this.state.countries.reduce((a, b) => a + b.silverMedalCount, 0) 
-          + this.state.countries.reduce((a, b) => a + b.bronzeMedalCount, 0) 
+        /> */}               
+        {countries.map(name => 
+          <Country 
+          onGoldIncrement = {this.addGoldMedal}
+          onGoldDecrement = {this.subtractGoldMedal}
+          onSilverIncrement = {this.addSilverMedal}
+          onSilverDecrement = {this.subtractSilverMedal}
+          onBronzeIncrement = {this.addBronzeMedal}
+          onBronzeDecrement = {this.subtractBronzeMedal}
+          key = { name.id}
+          name = {name}    
+          />)}
+        <Medal totalMedals={countries.reduce((a, b) => a + b.goldMedalCount, 0) 
+          + countries.reduce((a, b) => a + b.silverMedalCount, 0) 
+          + countries.reduce((a, b) => a + b.bronzeMedalCount, 0) 
            } 
-           goldMedals= {this.state.countries.reduce((a, b) => a + b.goldMedalCount, 0) }
-           silverMedals = {this.state.countries.reduce((a, b) => a + b.silverMedalCount, 0) }
-           bronzeMedals = {this.state.countries.reduce((a, b) => a + b.bronzeMedalCount, 0) }
+           goldMedals= {countries.reduce((a, b) => a + b.goldMedalCount, 0) }
+           silverMedals = {countries.reduce((a, b) => a + b.silverMedalCount, 0) }
+           bronzeMedals = {countries.reduce((a, b) => a + b.bronzeMedalCount, 0) }
            />
       </div>
      );
