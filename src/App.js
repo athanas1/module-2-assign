@@ -2,103 +2,70 @@ import React, { Component } from 'react';
 import './App.css';
 //import Countries from './components/Countries';
 import Country from './components/Country';
-import Medal from './components/Medal';
 import { getCountries } from './services/countryService';
+import { getMedals} from './services/medalService';
+import Paper from '@material-ui/core/Paper';
 
 class App extends Component {
   state = { 
-    countries: getCountries(), 
+    countries: getCountries(),
+    medals: getMedals(), 
 }
 
-addGoldMedal = (id) => {
+addMedal = (id, medal) => {
 
-  const countriesMutable = [...this.state.countries]
-  const idx = countriesMutable.findIndex((c) => c.id === id)
+  const countriesM = [...this.state.countries]
+  const idx = countriesM.findIndex((c) => c.id === id)
   
-  this.setState({goldMedalCount: countriesMutable[idx].goldMedalCount +=1})
+  countriesM[idx][medal + 'MedalCount'] += 1
+  this.setState({ countries: countriesM});
   
 }
-addSilverMedal = (id) => {
 
-  const countriesMutable = [...this.state.countries]
-  const idx = countriesMutable.findIndex((c) => c.id === id)
+subtractMedal = (id, medal) =>{
+
+  const countriesM = [...this.state.countries]
+  const idx = countriesM.findIndex((c) => c.id === id)
   
-  this.setState({silverMedalCount: countriesMutable[idx].silverMedalCount +=1})
-
-}
-addBronzeMedal = (id) => {
-
-  const countriesMutable = [...this.state.countries]
-  const idx = countriesMutable.findIndex((c) => c.id === id)
   
-  this.setState({bronzeMedalCount: countriesMutable[idx].bronzeMedalCount +=1})
-
-}
-
-subtractGoldMedal = (id) =>{
-
-  const countriesMutable = [...this.state.countries];
-
-  const idx = countriesMutable.findIndex((c) => c.id === id);
-
-  if(this.state.goldMedalCount >= 1){
-    this.setState({goldMedalCount: countriesMutable[idx].goldMedalCount -= 1}) 
+  if(countriesM[idx][medal + 'MedalCount'] >= 1){
+    countriesM[idx][medal + 'MedalCount'] -= 1
+    this.setState({ countries: countriesM});
   }
 }
-subtractSilverMedal = (id) =>{
-
-  const countriesMutable = [...this.state.countries];
-
-  const idx = countriesMutable.findIndex((c) => c.id === id);
-
-  if(this.state.silverMedalCount >= 1){
-    this.setState({silverMedalCount: countriesMutable[idx].silverMedalCount -= 1}) 
-  }
+getAllTotal(){
+  var x = 0;
+    this.state.medals.forEach(medal => {
+      x += this.state.countries.reduce((a, b) => a + b[medal.type + "MedalCount"],0);
+    });
+  return x;
 }
-subtractBronzeMedal = (id) =>{
-
-  const countriesMutable = [...this.state.countries];
-
-  const idx = countriesMutable.findIndex((c) => c.id === id);
-
-  if(this.state.bronzeMedalCount >= 1){
-    this.setState({bronzeMedalCount: countriesMutable[idx].bronzeMedalCount -= 1}) 
-  }
-}
- 
 componentDidMount() {
   console.log("App mounted");
 }
   render() { 
     const {countries} = this.state;
     return ( 
+      <React.Fragment>
       <div className="App">
         <header className="App-header">
-          Olympics WOW VERY COOL
-        </header>
-        {/* <Countries countries={ this.state.countries} onGoldIncrement ={this.addGoldMedal} onGoldDecrement= {this.subtractGoldMedal}
-        onSilverIncrement= {this.addSilverMedal} onSilverDecrement= {this.subtractSilverMedal} onBronzeIncrement = {this.addBronzeMedal} onBronzeDecrement = {this.subtractBronzeMedal}
-        /> */}               
-        {countries.map(name => 
+         Olympics
+        </header>              
+        {countries.map(country => 
           <Country 
-          onGoldIncrement = {this.addGoldMedal}
-          onGoldDecrement = {this.subtractGoldMedal}
-          onSilverIncrement = {this.addSilverMedal}
-          onSilverDecrement = {this.subtractSilverMedal}
-          onBronzeIncrement = {this.addBronzeMedal}
-          onBronzeDecrement = {this.subtractBronzeMedal}
-          key = { name.id}
-          name = {name}    
+          key = { country.id}
+          country = {country}  
+          onIncrement = {this.addMedal}
+          onDecrement = {this.subtractMedal}
+          medals = {this.state.medals}
           />)}
-        <Medal totalMedals={countries.reduce((a, b) => a + b.goldMedalCount, 0) 
-          + countries.reduce((a, b) => a + b.silverMedalCount, 0) 
-          + countries.reduce((a, b) => a + b.bronzeMedalCount, 0) 
-           } 
-           goldMedals= {countries.reduce((a, b) => a + b.goldMedalCount, 0) }
-           silverMedals = {countries.reduce((a, b) => a + b.silverMedalCount, 0) }
-           bronzeMedals = {countries.reduce((a, b) => a + b.bronzeMedalCount, 0) }
-           />
+          <Paper elevation={2} className="paper" >
+          <span className="counter">
+           All medals from all countries { this.getAllTotal()}
+          </span>
+          </Paper>
       </div>
+      </React.Fragment>
      );
   }
 }

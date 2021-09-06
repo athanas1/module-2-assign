@@ -1,56 +1,52 @@
 import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+
+
+import Medal from './Medal';
 
 
 
 
 class Country extends Component{
-    // state = {
-    //     name : this.props.name.name,
-    //     goldMedalCount: this.props.name.goldMedalCount,
-    // }
-    // addMedal= () => {
-    //      this.setState({goldMedalCount: this.state.goldMedalCount + 1})
-        
-    // }
-    // subtractMedal = () =>{
-    //     if(this.state.goldMedalCount >= 1){
-    //     this.setState({goldMedalCount: this.state.goldMedalCount - 1})
-    //     }
-    // }
-    
+    //going over the medals array and for each medal we add the amount of medals based on the country and medal var
+    getMedalsTotal(country, medals){
+        var x = 0;
+        medals.forEach(medal => { 
+            x += country[medal.type + "MedalCount"]
+        })
+        return x;
+    }
     
     render() {
-        const{onGoldIncrement, onGoldDecrement,onSilverIncrement,onSilverDecrement, onBronzeIncrement, onBronzeDecrement, name} = this.props;
+        const{onIncrement, country, medals, onDecrement} = this.props;
         return(
         <div>
             <Paper elevation={2} className="paper" >
-            <div className = 'country'>
-            {name.name} - {name.goldMedalCount + name.silverMedalCount + name.bronzeMedalCount}
-            </div>
-            <div className = 'medals'>
-            <br></br>
-             {'Gold Medals: ' + name.goldMedalCount} 
-             {" "}  
-             <button onClick={ () => onGoldIncrement(name.id) }><ArrowUpwardIcon /></button>
-             {" "}  
-             <button onClick={ () => onGoldDecrement(name.id)}><ArrowDownwardIcon /></button>
-             {'Silver Medals: ' + name.silverMedalCount} 
-             {" "}  
-             <button onClick={ () => onSilverIncrement(name.id) }><ArrowUpwardIcon /></button>
-             {" "}  
-             <button onClick={ () => onSilverDecrement(name.id)}><ArrowDownwardIcon /></button>
-             {'Bronze Medals: ' + name.bronzeMedalCount} 
-             {" "}  
-             <button onClick={ () => onBronzeIncrement(name.id) }><ArrowUpwardIcon /></button>
-             {" "}  
-             <button onClick={ () => onBronzeDecrement(name.id)}><ArrowDownwardIcon /></button>
-            </div>
+                <div className="country">
+                    {country.name}
+                    <br></br>
+                     Total Medals: { this.getMedalsTotal(country, medals) }
+                    
+                </div>
+                
+                
             <br></br>
             </Paper>
-        </div>);
+
+            {medals.map(medal =>
+                <Medal
+                    key = {medal.id}
+                    country={country}
+                    medal= { medal }
+                    onIncrement = {onIncrement}
+                    onDecrement = {onDecrement}
+                />
+                ) }
+
+        </div>
+        
+        
+        );
     }
 
 }
