@@ -3,12 +3,13 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import Paper from '@material-ui/core/Paper';
 
 const Medal = (props) => {
+    const{medal, country, onIncrement,onDecrement} = props;
     return (
         <Paper elevation={2} className="paper" >
             <div className="medals">
-                {props.medal.type} medals: {props.country[props.medal.type + "MedalCount"]}
-                <button onClick={ () => props.onIncrement(props.country.id, props.medal.type) }><ArrowUpwardIcon /></button>
-                <button onClick={ () => props.onDecrement(props.country.id, props.medal.type)}><ArrowDownwardIcon /></button>
+                {medal.type} medals: {country[medal.type + "MedalCount"]}
+                <button onClick={ () => onIncrement(country.id, medal.type) }><ArrowUpwardIcon /></button>
+                <button onClick={ () => onDecrement(country.id, medal.type)}><ArrowDownwardIcon /></button>
             </div>
         </Paper>  
         );

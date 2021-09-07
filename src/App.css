@@ -15,6 +15,7 @@
   font-size: 2em;
   opacity: .75;
   cursor: pointer;
+  float: inherit;
 }
 
 .medals{
@@ -24,4 +25,7 @@ font-size: 1.25em;
   margin: auto;
   width: 50%;
   font-size: 1.5em;
+}
+.deleteButton{
+  float: inherit;
 }

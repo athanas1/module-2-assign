@@ -7,3 +7,11 @@ let countries = [
 export function getCountries(){
     return countries;
 }
+export function addCountry(name){
+    const id = countries.length === 0 ? 1 : Math.max(...countries.map(country => country.id)) + 1;
+    countries = countries.concat({ id: id, name:name, goldMedalCount:0, silverMedalCount:0, bronzeMedalCount:0 });
+    
+}
+export function deleteCountry(countryID){
+    countries = countries.filter(c => c.id !== countryID);
+}

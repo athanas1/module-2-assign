@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 //import Countries from './components/Countries';
 import Country from './components/Country';
-import { getCountries } from './services/countryService';
+import { addCountry, deleteCountry, getCountries } from './services/countryService';
 import { getMedals} from './services/medalService';
 import Paper from '@material-ui/core/Paper';
+import NewCountry from './components/NewCountry';
 
 class App extends Component {
   state = { 
@@ -40,8 +41,13 @@ getAllTotal(){
     });
   return x;
 }
-componentDidMount() {
-  console.log("App mounted");
+handleAdd = (name) => {
+  addCountry(name);
+  this.setState({ countries : getCountries()} );
+}
+handleDelete = (countryID) =>{
+  deleteCountry(countryID);
+  this.setState({countries:getCountries()});
 }
   render() { 
     const {countries} = this.state;
@@ -50,13 +56,17 @@ componentDidMount() {
       <div className="App">
         <header className="App-header">
          Olympics
-        </header>              
+        </header>       
+        <NewCountry 
+        onAdd = { this.handleAdd } 
+        />       
         {countries.map(country => 
           <Country 
           key = { country.id}
           country = {country}  
           onIncrement = {this.addMedal}
           onDecrement = {this.subtractMedal}
+          onDelete = {this.handleDelete}
           medals = {this.state.medals}
           />)}
           <Paper elevation={2} className="paper" >
@@ -64,6 +74,7 @@ componentDidMount() {
            All medals from all countries { this.getAllTotal()}
           </span>
           </Paper>
+          
       </div>
       </React.Fragment>
      );

@@ -18,7 +18,7 @@ class Country extends Component{
     }
     
     render() {
-        const{onIncrement, country, medals, onDecrement} = this.props;
+        const{onIncrement, country, medals, onDecrement,onDelete} = this.props;
         return(
         <div>
             <Paper elevation={2} className="paper" >
@@ -26,10 +26,11 @@ class Country extends Component{
                     {country.name}
                     <br></br>
                      Total Medals: { this.getMedalsTotal(country, medals) }
-                    
+                     <br></br>
                 </div>
-                
-                
+                <div className="deleteButton">
+                <button  onClick ={() => onDelete(country.id)}>Delete { country.name}</button>
+                </div>
             <br></br>
             </Paper>
 
@@ -42,10 +43,8 @@ class Country extends Component{
                     onDecrement = {onDecrement}
                 />
                 ) }
-
+                
         </div>
-        
-        
         );
     }
 
